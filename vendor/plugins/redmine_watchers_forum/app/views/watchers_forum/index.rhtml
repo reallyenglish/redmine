@@ -1,0 +1,33 @@
+<h2>Watchers on forum</h2>
+
+<%= error_messages_for 'member' %>
+<% # members sorted by role position
+   members = @project.members.find(:all, :include => [:role, :user]).sort %>
+
+<% forums = @project.boards.find(:all) %>
+   
+<% if members.any? %>
+<table class="list">
+	<thead>
+  <th></th>
+	<% forums.each do |forum| %>
+	  <th><%= forum.name %></th>
+	<% end %>
+	</thead>
+	<tbody>
+	<% members.each do |member| %>
+	<% next if member.new_record? %>
+	<tr class="<%= cycle 'odd', 'even' %>">
+	<td><%= member.name %></td>
+	<% forums.each do |forum| %>
+  <td>
+	<%= watcher_tag(forum, member.user) %>
+  </td>
+	<% end %>
+	</tr>
+	</tbody>
+<% end; reset_cycle %>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
