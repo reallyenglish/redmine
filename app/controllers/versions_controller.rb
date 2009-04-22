@@ -20,6 +20,11 @@ class VersionsController < ApplicationController
   before_filter :find_project, :authorize
 
   def show
+    @open_estimated_time, @closed_estimated_time = 0.0, 0.0
+    @version.fixed_issues.each { |issue|
+      @open_estimated_time += issue.estimated_hours if issue.estimated_hours && !issue.closed?
+      @closed_estimated_time += issue.estimated_hours if issue.estimated_hours && issue.closed?
+    }
   end
   
   def edit
