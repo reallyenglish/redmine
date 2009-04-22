@@ -52,6 +52,10 @@ module QueriesHelper
           progress_bar(value, :width => '80px')
         when :fixed_version
           link_to(h(value), { :controller => 'versions', :action => 'show', :id => issue.fixed_version_id })
+        when :estimated_hours
+          # show with sum
+          @sum = @sum ? @sum + value.to_f : value.to_f
+          h(value) + " (" + h(@sum) + ")"
         else
           h(value)
         end
