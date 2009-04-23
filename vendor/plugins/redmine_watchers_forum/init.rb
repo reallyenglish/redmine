@@ -17,7 +17,7 @@ end
 
 Rails::Plugin.class_eval do
    def reloadable!
-     load_paths.each { |p| Dependencies.load_once_paths.delete(p) }
+     load_paths.each { |p| ActiveSupport::Dependencies.load_once_paths.delete(p) }
    end
 end
 
