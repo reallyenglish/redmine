@@ -53,8 +53,10 @@ module QueriesHelper
         when :fixed_version
           link_to(h(value), { :controller => 'versions', :action => 'show', :id => issue.fixed_version_id })
         when :estimated_hours
+          done_ratio = issue.send('done_ratio').to_f / 100.0
+          remain_time = value.to_f - (value.to_f * done_ratio)
           # show with sum
-          @sum = @sum ? @sum + value.to_f : value.to_f
+          @sum = @sum ? @sum + remain_time : remain_time
           h(value) + " (" + h(@sum) + ")"
         else
           h(value)
