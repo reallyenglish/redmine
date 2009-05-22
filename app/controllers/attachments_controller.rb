@@ -39,6 +39,10 @@ class AttachmentsController < ApplicationController
       @attachment.increment_download
     end
     
+    # Added Expires header.
+    # reallyenglish redmine #1174
+    headers["Expires"] = (Time.now + 1.month).rfc2822
+
     # images are sent inline
     send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
                                     :type => @attachment.content_type, 
