@@ -413,6 +413,7 @@ label_details: Details
 label_add_note: Add a note
 label_per_page: Per page
 label_calendar: Calendar
+label_calendar_4weeks: Calendar (4 weeks)
 label_months_from: months from
 label_gantt: Gantt
 label_internal: Internal
