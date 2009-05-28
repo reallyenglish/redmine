@@ -1,7 +1,12 @@
 <h3><%=l(:re_extension_label_for_manager)%></h3>
 <%# TODO: shouldn't be hardcode for manager:3. Should add emergency one %>
 <% manager_issues = Issue.find(:all, 
-                                :conditions => ["(due_date < ? OR assigned_to_id is null OR priority_id=7) AND #{IssueStatus.table_name}.is_closed=? AND #{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND project_id in (#{user.projects.select {|p| user.role_for_project(p).id == 3}.collect{|m| m.id}.join(',')})", Date.today, false,  ],
-                                :include => [ :status, :project, :tracker, :priority ], 
-                                :order => "#{Enumeration.table_name}.position DESC, #{Issue.table_name}.due_date ") %>
+                                :conditions => [
+                                "(due_date < ? OR assigned_to_id is null " +
+                                "OR priority_id=7 " +
+                                "OR (due_date is null AND (fixed_version_id is null OR #{Version.table_name}.effective_date is null OR #{Version.table_name}.effective_date < ?)))" +
+                                "AND #{IssueStatus.table_name}.is_closed=? "+
+                                "AND #{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Issue.table_name}.project_id in (#{user.projects.select {|p| user.role_for_project(p).id == 3}.collect{|m| m.id}.join(',')})", Date.today, Date.today, false,  ],
+                                :include => [ :status, :project, :tracker, :priority, :fixed_version ], 
+                                :order => "priority_id desc, #{Issue.table_name}.due_date ") %>
 <%= render :partial => 'issues/list_simple_for_manager', :locals => { :issues => manager_issues } %>
