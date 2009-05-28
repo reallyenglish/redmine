@@ -25,7 +25,7 @@ class MyController < ApplicationController
              'issueswatched' => :label_watched_issues,
              'news' => :label_news_latest,
              'calendar' => :label_calendar,
-             'calendar_4weeks' => :label_calendar_4weeks,
+             'my_calendar' => :re_extension_label_my_calendar,
              'documents' => :label_document_plural,
              'timelog' => :label_spent_time,
              'issuesformanagers' => :re_extension_label_for_manager,
