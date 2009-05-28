@@ -1,26 +1,50 @@
 <% if issues && issues.any? %>
 <% form_tag({}) do %>
-	<table class="list issues">		
+	<table class="list issues">
 		<thead><tr>
 		<th>#</th>
+		<th>What to do</th>
 		<th><%=l(:field_due_date)%></th>
 		<th><%=l(:field_assigned_to)%></th>
 		<th><%=l(:field_tracker)%></th>
 		<th><%=l(:field_subject)%></th>
 		</tr></thead>
-		<tbody>	
+		<tbody>
 		<% for issue in issues %>
 		<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= css_issue_classes(issue) %>">
 			<td class="id">
-			    <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
+				<%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
-			<td><%=h issue.due_date %></td>
-			<td><%=h issue.assigned_to ? issue.assigned_to.name : 'Not assigned' %></td>
+			<td>
+				<% if issue.priority_id==7 %><font color="red">Emergency</font>
+				<% elsif !issue.assigned_to %>Assign to a project member
+				<% elsif issue.due_date < Date.today %>Kick the assignnee (Overdue)
+				<% else %>Unknown
+				<% end %>
+			</td>
+			<td>
+				<% if issue.due_date %>
+					<% if issue.due_date < Date.today %>
+						<font color="red"><%= issue.due_date %></font>
+					<% else %>
+						<%= issue.due_date %>
+					<% end %>
+				<% else %>
+					 -
+				<% end %>
+				</td>
+			<td>
+			<% if issue.assigned_to %>
+				<%= issue.assigned_to.name %>
+			<% else %>
+				<font color="red">Not assigned</font>
+			<% end %>
+			</td>
 			<td><%=h issue.project.name %> - <%= issue.tracker.name %><br />
-                <%= issue.status.name %> - <%= format_time(issue.updated_on) %></td>
+								<%= issue.status.name %> - <%= format_time(issue.updated_on) %></td>
 			<td class="subject">
-                <%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %>
-            </td>
+								<%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %>
+						</td>
 		</tr>
 		<% end %>
 		</tbody>
