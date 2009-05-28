@@ -413,7 +413,6 @@ label_details: Details
 label_add_note: Add a note
 label_per_page: Per page
 label_calendar: Calendar
-label_calendar_4weeks: Calendar (4 weeks)
 label_months_from: months from
 label_gantt: Gantt
 label_internal: Internal
@@ -705,3 +704,4 @@ enumeration_doc_categories: Document categories
 enumeration_activities: Activities (time tracking)
 
 re_extension_label_for_manager: Issues for manager
+re_extension_label_my_calendar: My TODO Calendar (4 weeks)

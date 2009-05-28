@@ -1,8 +1,10 @@
-<h3><%= l(:label_calendar_4weeks) %></h3>
+<h3><%= l(:re_extension_label_my_calendar) %></h3>
 
 <% calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :four_weeks)
    calendar.events = Issue.find :all,
-                     :conditions => ["#{Issue.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')}) AND ((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt],
-                     :include => [:project, :tracker, :priority, :assigned_to] unless @user.projects.empty? %>
+                     :conditions => ["assigned_to_id=? AND " +
+                                     "#{IssueStatus.table_name}.is_closed=? AND " +
+                                     "((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", user.id, false, calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt],
+                     :include => [:status, :project, :tracker, :priority, :assigned_to] unless @user.projects.empty? %>
 
 <%= render :partial => 'common/calendar', :locals => {:calendar => calendar } %>
