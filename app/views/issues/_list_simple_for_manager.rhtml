@@ -16,19 +16,19 @@
 				<%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
 			<td>
-				<% if issue.priority_id==7 %><font color="red">Emergency</font>
+				<% if issue.priority_id==7 %><span style="color:red">Emergency</span>
 				<% elsif !issue.assigned_to %>Assign to a project member
 				<% elsif issue.due_date && issue.due_date < Date.today %>Kick the assignee (Overdue issue)
-				<% elsif !issue.due_date && !issue.fixed_version_id %>Set <font color="red">Due date</font> or <font color="red">Target version</font>
-				<% elsif issue.fixed_version && !issue.fixed_version.effective_date %>Set <font color="red">Due date</font> to Version <%= issue.fixed_version.name %></font>
-				<% elsif issue.fixed_version && issue.fixed_version.effective_date && issue.fixed_version.effective_date < Date.today %>Kick the assignee (Overdue version <font color="red"><%= issue.fixed_version.name %></font>)
+				<% elsif !issue.due_date && !issue.fixed_version_id %>Set <span style="color:red">Due date</span> or <span style="color:red">Target version</span>
+				<% elsif issue.fixed_version && !issue.fixed_version.effective_date %>Set <span style="color:red">Due date</span> to Version <span style="color:red"><%= issue.fixed_version.name %></span>
+				<% elsif issue.fixed_version && issue.fixed_version.effective_date && issue.fixed_version.effective_date < Date.today %>Kick the assignee (Overdue version <span style="color:red"><%= issue.fixed_version.name %></span>)
 				<% else %>Unknown
 				<% end %>
 			</td>
 			<td>
 				<% if issue.due_date %>
 					<% if issue.due_date < Date.today %>
-						<font color="red"><%= issue.due_date %></font>
+						<span style="color:red"><%= issue.due_date %></span>
 					<% else %>
 						<%= issue.due_date %>
 					<% end %>
@@ -40,7 +40,7 @@
 			<% if issue.assigned_to %>
 				<%= issue.assigned_to.name %>
 			<% else %>
-				<font color="red">Not assigned</font>
+				<span style="color:red">Not assigned</span>
 			<% end %>
 			</td>
 			<td><%=h issue.project.name %> - <%= issue.tracker.name %><br />
