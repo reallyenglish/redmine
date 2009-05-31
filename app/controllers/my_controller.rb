@@ -29,6 +29,7 @@ class MyController < ApplicationController
              'documents' => :label_document_plural,
              'timelog' => :label_spent_time,
              'issuesformanagers' => :re_extension_label_for_manager,
+             'issuesoverduetome' => :re_extension_label_for_issues_overdue,
            }.freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'], 

@@ -705,3 +705,4 @@ enumeration_activities: Activities (time tracking)
 
 re_extension_label_for_manager: Issues for manager
 re_extension_label_my_calendar: My TODO Calendar (4 weeks)
+re_extension_label_for_issues_overdue: My overdue issues
