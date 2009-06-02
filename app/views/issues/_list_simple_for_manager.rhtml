@@ -18,10 +18,10 @@
 			<td>
 				<% if issue.priority_id==7 %><span style="color:red">Emergency</span>
 				<% elsif !issue.assigned_to %>Assign to a project member
-				<% elsif issue.due_date && issue.due_date < Date.today %>Kick the assignee (Overdue issue)
+				<% elsif issue.due_date && issue.due_date < Date.today %>Reschedule or complete now! (Overdue issue)
 				<% elsif !issue.due_date && !issue.fixed_version_id %>Set <span style="color:red">Due date</span> or <span style="color:red">Target version</span>
 				<% elsif issue.fixed_version && !issue.fixed_version.effective_date %>Set <span style="color:red">Due date</span> to Version <span style="color:red"><%= issue.fixed_version.name %></span>
-				<% elsif issue.fixed_version && issue.fixed_version.effective_date && issue.fixed_version.effective_date < Date.today %>Kick the assignee (Overdue version <span style="color:red"><%= issue.fixed_version.name %></span>)
+				<% elsif issue.fixed_version && issue.fixed_version.effective_date && issue.fixed_version.effective_date < Date.today %>Reschedule or complete now! (Overdue version <span style="color:red"><%= issue.fixed_version.name %></span>)
 				<% else %>Unknown
 				<% end %>
 			</td>
