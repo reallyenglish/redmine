@@ -14,7 +14,11 @@
 			    <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
 			</td>
-			<td><span style="color:red"><%=h issue.due_date %></span></td>
+      <% if issue.due_date && issue.due_date <= Date.today %>
+         <td><span style="color:red"><%=h issue.due_date %></span></td>
+      <% else %>
+         <td><%=h issue.due_date %></td>
+      <% end %>
 			<td><%=h issue.project.name %> - <%= issue.tracker.name %><br />
                 <%= issue.status.name %> - <%= format_time(issue.updated_on) %></td>
 			<td class="subject">

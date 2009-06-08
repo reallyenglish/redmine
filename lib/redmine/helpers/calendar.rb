@@ -51,7 +51,7 @@ module Redmine
       # Sets calendar events
       def events=(events)
         @events = events
-        @ending_events_by_days = @events.group_by {|event| event.due_date}
+        @ending_events_by_days = @events.group_by {|event| event.due_date || event.fixed_version.effective_date}
         @starting_events_by_days = @events.group_by {|event| event.start_date}
       end
       

@@ -4,7 +4,8 @@
    calendar.events = Issue.find :all,
                      :conditions => ["assigned_to_id=? AND " +
                                      "#{IssueStatus.table_name}.is_closed=? AND " +
-                                     "((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", user.id, false, calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt],
-                     :include => [:status, :project, :tracker, :priority, :assigned_to] unless @user.projects.empty? %>
+                                     "(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)) OR " +
+                                     "(#{Version.table_name}.effective_date >=? and #{Version.table_name}.effective_date <=?)) ", user.id, false, calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt],
+                     :include => [:status, :project, :tracker, :priority, :assigned_to, :fixed_version] unless @user.projects.empty? %>
 
 <%= render :partial => 'common/calendar', :locals => {:calendar => calendar } %>

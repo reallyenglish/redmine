@@ -25,16 +25,19 @@ class MyController < ApplicationController
              'issueswatched' => :label_watched_issues,
              'news' => :label_news_latest,
              'calendar' => :label_calendar,
-             'my_calendar' => :re_extension_label_my_calendar,
              'documents' => :label_document_plural,
              'timelog' => :label_spent_time,
+             'my_calendar' => :re_extension_label_my_calendar,
              'issuesformanagers' => :re_extension_label_for_manager,
              'issuesoverduetome' => :re_extension_label_for_issues_overdue,
+             'newissuestome' => :re_extension_label_my_new_issues,
            }.freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'], 
                       'right' => ['issuesreportedbyme'] 
                    }.freeze
+
+  RE_LAYOUT = {'left' => ['newissuestome'], 'right' => ['issuesoverduetome'], "bottom"=>["issuesformanagers", "my_calendar"]}.freeze
 
   verify :xhr => true,
          :session => :page_layout,
@@ -49,6 +52,14 @@ class MyController < ApplicationController
   def page
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
+  end
+
+  def update_with_recommendation
+    @user = User.current
+    @user.pref[:my_page_layout] = RE_LAYOUT
+    @user.pref.save
+    session[:page_layout] = nil
+    redirect_to :action => 'page'
   end
 
   # Edit user's account
@@ -108,7 +119,7 @@ class MyController < ApplicationController
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
     session[:page_layout] = @blocks
-    %w(top left right).each {|f| session[:page_layout][f] ||= [] }
+    %w(top left right bottom).each {|f| session[:page_layout][f] ||= [] }
     @block_options = []
     BLOCKS.each {|k, v| @block_options << [l(v), k]}
   end
@@ -121,7 +132,7 @@ class MyController < ApplicationController
     render(:nothing => true) and return unless block && (BLOCKS.keys.include? block)
     @user = User.current
     # remove if already present in a group
-    %w(top left right).each {|f| (session[:page_layout][f] ||= []).delete block }
+    %w(top left right bottom).each {|f| (session[:page_layout][f] ||= []).delete block }
     # add it on top
     session[:page_layout]['top'].unshift block
     render :partial => "block", :locals => {:user => @user, :block_name => block}
@@ -132,19 +143,19 @@ class MyController < ApplicationController
   def remove_block
     block = params[:block]
     # remove block in all groups
-    %w(top left right).each {|f| (session[:page_layout][f] ||= []).delete block }
+    %w(top left right bottom).each {|f| (session[:page_layout][f] ||= []).delete block }
     render :nothing => true
   end
 
   # Change blocks order on user's page
-  # params[:group] : group to order (top, left or right)
-  # params[:list-(top|left|right)] : array of block ids of the group
+  # params[:group] : group to order (top, left or right or bottom)
+  # params[:list-(top|left|right|bottom)] : array of block ids of the group
   def order_blocks
     group = params[:group]
     group_items = params["list-#{group}"]
     if group_items and group_items.is_a? Array
       # remove group blocks if they are presents in other groups
-      %w(top left right).each {|f|
+      %w(top left right bottom).each {|f|
         session[:page_layout][f] = (session[:page_layout][f] || []) - group_items
       }
       session[:page_layout][group] = group_items    
