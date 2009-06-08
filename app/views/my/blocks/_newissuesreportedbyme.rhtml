@@ -2,7 +2,7 @@
 <% reported_issues = Issue.find(:all, 
                                 :conditions => ["author_id=? AND #{IssueStatus.table_name}.is_closed=? AND #{Project.table_name}.status=#{Project::STATUS_ACTIVE} ", user.id, false],
                                 :include => [ :status, :project, :tracker ], 
-                                :order => "#{Issue.table_name}.updated_on DESC") %>
+                                :order => "#{Issue.table_name}.id DESC") %>
 <%= render :partial => 'issues/list_simple_with_assignee', :locals => { :issues => reported_issues } %>
 
 <% content_for :header_tags do %>
