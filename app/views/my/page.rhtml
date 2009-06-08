@@ -31,6 +31,8 @@
 	<% end if @blocks['right'] %>
 </div>
 
+<div style="clear: both"></div>
+
 <div id="list-bottom">
 	<% @blocks['bottom'].each do |b| 
 	   next unless MyController::BLOCKS.keys.include? b	%>
