@@ -23,7 +23,12 @@
 <% end %>
 
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), :required => true %></p>
-<p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
+<p>
+<%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %>
+<span id="message_issue_assigned_to_id" style="color:red; display:none; ">
+  Change the status to '<%=@allowed_statuses[0].name%>' if you want to make sure that he/she is accepted this issue.
+<span>
+</p>
 <% unless @project.issue_categories.empty? %>
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
 <%= prompt_to_remote(l(:label_issue_category_new),
@@ -61,3 +66,11 @@
 <%= call_hook(:view_issues_form_details_bottom, { :issue => @issue, :form => f }) %>
 
 <%= wikitoolbar_for 'issue_description' %>
+
+<% if !@issue.new_record? && @issue.status_id!=1 %>
+<script>
+  $('issue_assigned_to_id').observe('change', function() {
+    $('message_issue_assigned_to_id').show();
+  });
+</script>
+<% end %>
