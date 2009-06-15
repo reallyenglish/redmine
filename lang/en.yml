@@ -708,5 +708,5 @@ re_extension_label_my_calendar: My Task Calendar (4 weeks)
 re_extension_label_for_issues_overdue: My Overdue Issues
 re_extension_label_my_new_issues: My New Issues
 re_extension_label_update_for_re: Update this page with recommendation layout
-re_extension_label_new_reported_issues: My Reported Issues (Not Assigned)
+re_extension_label_new_reported_issues: My Reported Issues (Not Accepted yet)
 re_extension_label_resolved_reported_issues: My Reported Issues (Resolved)
