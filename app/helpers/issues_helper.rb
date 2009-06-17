@@ -32,7 +32,7 @@ module IssuesHelper
       "<strong>#{@cached_label_due_date}</strong>: #{format_date(issue.due_date)}<br />" +
       "<strong>#{@cached_label_assigned_to}</strong>: #{issue.assigned_to}<br />" +
       "<strong>#{@cached_label_priority}</strong>: #{issue.priority.name}<br />" +
-      "<strong>#{@cached_label_description}</strong>: #{issue.description}"
+      "<strong>#{@cached_label_description}</strong>: #{textilizable issue, :description, :attachments =>issue.attachments}"
   end
   
   # Returns a string of css classes that apply to the given issue
