@@ -25,9 +25,9 @@
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), :required => true %></p>
 <p>
 <%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %>
-<span id="message_issue_assigned_to_id" style="color:red; display:none; ">
+<span id="message_issue_assigned_to_id" style="color:red; display:none;">
   Change the status to '<%=@allowed_statuses[0].name%>' if you want to make sure to let her/him accept this issue her/himself.
-<span>
+</span>
 </p>
 <% unless @project.issue_categories.empty? %>
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
