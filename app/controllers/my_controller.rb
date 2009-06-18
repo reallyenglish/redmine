@@ -39,7 +39,7 @@ class MyController < ApplicationController
                       'right' => ['issuesreportedbyme'] 
                    }.freeze
 
-  RE_LAYOUT = {'left' => ['newissuestome', 'issuesoverduetome'], 'right' => ['resolvedissuesreportedbyme', 'newissuesreportedbyme'], "bottom"=>["issuesformanagers", "my_calendar"]}.freeze
+  RE_LAYOUT = {"top"=>["issuesformanagers"], 'left' => ['newissuestome', 'issuesoverduetome'], 'right' => ['resolvedissuesreportedbyme', 'newissuesreportedbyme'], 'bottom' => 'my_calendar'}.freeze
 
   verify :xhr => true,
          :session => :page_layout,

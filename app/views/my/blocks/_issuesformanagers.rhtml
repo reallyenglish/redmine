@@ -7,7 +7,8 @@ if my_managing_projects.length > 0
 <%
   manager_issues = Issue.find(:all,
                                 :conditions => [
-                                "(due_date < ? OR assigned_to_id is null " +
+                                "(due_date < ? " +
+                                "OR (assigned_to_id is null AND fixed_version_id is null)" +
                                 "OR priority_id=7 " +
                                 "OR (due_date is null AND (fixed_version_id is null OR #{Version.table_name}.effective_date is null OR #{Version.table_name}.effective_date < ?)))" +
                                 "AND #{IssueStatus.table_name}.is_closed=? "+
