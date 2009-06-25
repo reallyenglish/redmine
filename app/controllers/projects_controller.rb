@@ -59,7 +59,7 @@ class ProjectsController < ApplicationController
         my_projects = Project.find :all,
         :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.id IN (#{User.current.memberships.collect{|m| m.project_id}.join(',')}))",
         :include => :parent
-        render :xml => my_projects.sort_by(&:name).to_xml
+        render :xml => my_projects.sort.to_xml
       }
     end
   end
