@@ -49,7 +49,14 @@ class AccountController < ApplicationController
       user = User.try_to_login(params[:username], params[:password])
       if user.nil?
         # Invalid credentials
-        flash.now[:error] = l(:notice_account_invalid_creditentials)
+        respond_to do |format|
+          format.html {
+            flash.now[:error] = l(:notice_account_invalid_creditentials)
+          }
+          format.xml {
+            render :xml => "<status>0</status>"
+          }
+        end
       elsif user.new_record?
         # Onthefly creation failed, display the registration form to fill/fix attributes
         @user = user
@@ -59,12 +66,20 @@ class AccountController < ApplicationController
         # Valid user
         self.logged_user = user
         # generate a key and set cookie if autologin
-        if params[:autologin] && Setting.autologin?
-          token = Token.create(:user => user, :action => 'autologin')
-          cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
+        
+        respond_to do |format|
+          format.html {
+            if params[:autologin] && Setting.autologin?
+              token = Token.create(:user => user, :action => 'autologin')
+              cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
+            end
+            call_hook(:controller_account_success_authentication_after, {:user => user })
+            redirect_back_or_default :controller => 'my', :action => 'page'
+          }
+          format.xml {
+            render :xml => "<status>1</status>"
+          }
         end
-        call_hook(:controller_account_success_authentication_after, {:user => user })
-        redirect_back_or_default :controller => 'my', :action => 'page'
       end
     end
   end
