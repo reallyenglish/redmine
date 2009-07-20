@@ -80,6 +80,10 @@ class Version < ActiveRecord::Base
   def closed_issues_count
     @closed_issues_count ||= Issue.count(:all, :conditions => ["fixed_version_id = ? AND is_closed = ?", self.id, true], :include => :status)
   end
+
+  def open_unassigned_issues_count
+    @open_unassigned_issues_count ||= Issue.count(:all, :conditions => ["fixed_version_id = ? AND is_closed = ? AND assigned_to_id is null", self.id, false], :include => :status)
+  end
   
   def wiki_page
     if project.wiki && !wiki_page_title.blank?

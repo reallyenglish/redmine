@@ -27,8 +27,6 @@
           <% end %>
 				<% elsif issue.due_date && issue.due_date < Date.today %>Overdue! Reschedule or complete now.
 				<% elsif !issue.due_date && !issue.fixed_version_id %>Set <span style="color:red">Due date</span> or <span style="color:red">Target version</span>
-				<% elsif issue.fixed_version && !issue.fixed_version.effective_date %>Set <span style="color:red">Due date</span> to Version <span style="color:red"><%= issue.fixed_version.name %></span>
-				<% elsif issue.fixed_version && issue.fixed_version.effective_date && issue.fixed_version.effective_date < Date.today %>Overdue version <span style="color:red"><%= issue.fixed_version.name %>!<br/></span>Reschedule or complete now
 				<% else %>Unknown
 				<% end %>
 			</td>

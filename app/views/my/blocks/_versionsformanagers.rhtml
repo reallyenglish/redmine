@@ -14,7 +14,7 @@ if my_managing_projects.length > 0
                                 :order => "#{Project.table_name}.id desc, #{Version.table_name}.effective_date "
                          )
   if versions.length > 0 then %>
-   <h3><%=l(:re_extension_label_for_manager_milestone)%> ( <%= day_from %> - <%= day_to %> )</h3>
+   <h3><%=l(:re_extension_label_for_manager_version)%> ( <%= day_from %> - <%= day_to %> )</h3>
    <% cnt = 0 %>
   <% end %>
   <table>
@@ -28,7 +28,7 @@ if my_managing_projects.length > 0
     <% end %>
     <td>
       <%= tag 'a', :name => version.name %>
-      <h3 class="icon22 icon22-package"><%= link_to h(version.name), :controller => 'versions', :action => 'show', :id => version %></h3>
+      <h3 class="icon22 icon22-package"><%= link_to h(version.project.name + ' - ' + version.name), :controller => 'versions', :action => 'show', :id => version %></h3>
       <%= render :partial => 'versions/overview', :locals => {:version => version} %>
       <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
     </td>

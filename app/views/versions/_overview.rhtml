@@ -16,6 +16,8 @@
         <%= link_to(version.open_issues_count, :controller => 'issues', :action => 'index', :project_id => version.project, :status_id => 'o', :fixed_version_id => version, :set_filter => 1) %>
         <%= lwr(:label_open_issues, version.open_issues_count)%>
         (<%= '%0.0f' % (version.open_issues_count.to_f / version.fixed_issues.count * 100) %>%)
+        <%= link_to(version.open_unassigned_issues_count, :controller => 'issues', :action => 'index', :project_id => version.project, :status_id => 'o', :assigned_to_id => '*', :fixed_version_id => version, :set_filter => 1) %>
+        <%= lwr(:label_open_unassigned_issues, version.open_unassigned_issues_count)%>
     </p>
 <% else %>
     <p><em><%= l(:label_roadmap_no_issues) %></em></p>
