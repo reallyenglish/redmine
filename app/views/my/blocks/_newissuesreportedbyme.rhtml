@@ -1,6 +1,6 @@
 <h3><%=l(:re_extension_label_new_reported_issues)%></h3>
 <% reported_issues = Issue.find(:all, 
-                                :conditions => ["author_id=? AND status_id=1 AND #{Project.table_name}.status=#{Project::STATUS_ACTIVE} ", user.id],
+                                :conditions => ["author_id=? AND status_id=1 AND fixed_version_id is null AND #{Project.table_name}.status=#{Project::STATUS_ACTIVE} ", user.id],
                                 :include => [ :status, :project, :tracker ], 
                                 :order => "#{Issue.table_name}.id DESC") %>
 <%= render :partial => 'issues/list_simple_with_assignee', :locals => { :issues => reported_issues } %>
