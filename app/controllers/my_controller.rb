@@ -29,7 +29,7 @@ class MyController < ApplicationController
              'timelog' => :label_spent_time,
              'my_calendar' => :re_extension_label_my_calendar,
              'issuesformanagers' => :re_extension_label_for_manager,
-             'versionsformanagers' => :re_extension_label_for_manager_version,
+             'versionsformanagers' => :re_extension_label_for_versions,
              'issuesoverduetome' => :re_extension_label_for_issues_overdue,
              'newissuestome' => :re_extension_label_my_new_issues,
              'newissuesreportedbyme' => :re_extension_label_new_reported_issues,

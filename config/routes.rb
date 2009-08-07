@@ -11,7 +11,8 @@ ActionController::Routing::Routes.draw do |map|
     map.from_plugin plugin.name.to_sym
   end
 
-  map.home '', :controller => 'welcome'
+#  map.home '', :controller => 'welcome'
+  map.home '', :controller => 'my'
   map.signin 'login', :controller => 'account', :action => 'login'
   map.signout 'logout', :controller => 'account', :action => 'logout'
   
