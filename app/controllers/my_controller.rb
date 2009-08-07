@@ -32,15 +32,17 @@ class MyController < ApplicationController
              'versions' => :re_extension_label_for_versions,
              'issuesoverduetome' => :re_extension_label_for_issues_overdue,
              'newissuestome' => :re_extension_label_my_new_issues,
-             'newissuesreportedbyme' => :re_extension_label_new_reported_issues,
              'resolvedissuesreportedbyme' => :re_extension_label_resolved_reported_issues,
+
+             'involvedissues' => :re_extension_label_involved_issues,
+             'newissuesreportedbyme' => :re_extension_label_new_reported_issues,
            }.freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'], 
                       'right' => ['issuesreportedbyme'] 
                    }.freeze
 
-  RE_LAYOUT = {"top"=>["issuesformanagers", "versions"], 'left' => ['newissuestome', 'issuesoverduetome'], 'right' => ['resolvedissuesreportedbyme', 'newissuesreportedbyme'], 'bottom' => 'my_calendar'}.freeze
+  RE_LAYOUT = {"top"=>["issuesformanagers", "versions"], 'left' => ['newissuestome', 'issuesoverduetome'], 'right' => ['resolvedissuesreportedbyme', 'newissuesreportedbyme'], 'bottom' => ['my_calendar', 'involvedissues']}.freeze
 
   verify :xhr => true,
          :session => :page_layout,
