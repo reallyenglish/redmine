@@ -1,11 +1,11 @@
 <%
   day_from = Date.today - 3.days
-	day_to = Date.today + 1.months
+  day_to = Date.today + 1.months
   versions = Version.find(:all,
                                 :conditions => [
                                             "(effective_date between ?::date and ?::date)",
-																						day_from, day_to
-																						],
+                                            day_from, day_to
+                                            ],
                                 :include => [ :project ], 
                                 :order => "#{Project.table_name}.id desc, #{Version.table_name}.effective_date "
                          )
@@ -19,7 +19,7 @@
       <tr valign="top">
     <% elsif cnt == 2 then
       cnt = 0 %>
-	 		</tr>
+      </tr>
       <tr valign="top">
     <% end %>
     <td>
