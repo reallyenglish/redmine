@@ -1,20 +1,16 @@
-<%# TODO: shouldn't be hardcode for manager:3. Should add emergency one %>
 <%
-my_managing_projects = user.projects.select {|p| user.role_for_project(p).id == 3}.collect{|m| m.id}
-if my_managing_projects.length > 0
   day_from = Date.today - 3.days
-	day_to = Date.today + 1.months
+  day_to = Date.today + 1.months
   versions = Version.find(:all,
                                 :conditions => [
-                                            "#{Project.table_name}.id in (#{my_managing_projects.join(',')}) " +
-                                            "AND (effective_date between ?::date and ?::date)",
-																						day_from, day_to
-																						],
+                                            "(effective_date between ?::date and ?::date)",
+                                            day_from, day_to
+                                            ],
                                 :include => [ :project ], 
                                 :order => "#{Project.table_name}.id desc, #{Version.table_name}.effective_date "
                          )
   if versions.length > 0 then %>
-   <h3><%=l(:re_extension_label_for_manager_version)%> ( <%= day_from %> - <%= day_to %> )</h3>
+   <h3><%=l(:re_extension_label_for_versions)%> ( <%= day_from %> - <%= day_to %> )</h3>
    <% cnt = 0 %>
   <% end %>
   <table>
@@ -23,7 +19,7 @@ if my_managing_projects.length > 0
       <tr valign="top">
     <% elsif cnt == 2 then
       cnt = 0 %>
-	 		</tr>
+      </tr>
       <tr valign="top">
     <% end %>
     <td>
@@ -36,4 +32,3 @@ if my_managing_projects.length > 0
   <% end %>
   </tr>
   </table>
-<% end %>
