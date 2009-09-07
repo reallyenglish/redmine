@@ -552,6 +552,7 @@ label_added_time_by: Added by %s %s ago
 label_updated_time_by: Updated by %s %s ago
 label_updated_time: Updated %s ago
 label_jump_to_a_project: Jump to a project...
+label_new_issue_to_a_project: New issue ...
 label_file_plural: Files
 label_changeset_plural: Changesets
 label_default_columns: Default columns
