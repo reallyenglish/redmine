@@ -8,8 +8,10 @@ class DefaultWatchersController < ApplicationController
 
   def update
     DefaultWatcher.find_all_by_user_id(User.current.id).each{|w| w.destroy}
-    params[:watcher_ids].each do |id|
-      DefaultWatcher.find_or_create_by_user_id_and_watcher_id(User.current.id, id)
+    if params[:watcher_ids].is_a?(Array)
+      params[:watcher_ids].each do |id|
+        DefaultWatcher.find_or_create_by_user_id_and_watcher_id(User.current.id, id)
+      end
     end
     flash[:notice] = l(:notice_successful_update)
     redirect_to :action=>:index
