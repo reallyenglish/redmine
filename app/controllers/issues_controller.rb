@@ -122,10 +122,12 @@ class IssuesController < ApplicationController
       render :nothing => true, :layout => true
       return
     end
+    @issue.watcher_user_ids = []
     if params[:issue].is_a?(Hash)
       @issue.attributes = params[:issue]
-      @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
+      @issue.watcher_user_ids += params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
     end
+    @issue.watcher_user_ids += DefaultWatcher.find_all_by_user_id(User.current.id).map{|u| u.watcher.id}
     @issue.author = User.current
     
     default_status = IssueStatus.default
