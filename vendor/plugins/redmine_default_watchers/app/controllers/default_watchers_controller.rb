@@ -11,6 +11,7 @@ class DefaultWatchersController < ApplicationController
     params[:watcher_ids].each do |id|
       DefaultWatcher.find_or_create_by_user_id_and_watcher_id(User.current.id, id)
     end
+    flash[:notice] = l(:notice_successful_update)
     redirect_to :action=>:index
   end
 end
