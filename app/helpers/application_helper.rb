@@ -71,7 +71,6 @@ module ApplicationHelper
     
     image_tag =
       if image
-        options[:rel] = "lightbox[attachment]"
         url = url_for({:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename })
         inner = "<image src=\"#{url}\" class=\"attachment_thumbnail\" />"
         link_to(inner, {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, :rel=>"lightbox[attachment]") + " "
