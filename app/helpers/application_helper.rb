@@ -73,7 +73,7 @@ module ApplicationHelper
       if image
         options[:rel] = "lightbox[attachment]"
         url = url_for({:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename })
-        image_tag = "#{text} <image src=\"#{url}\" class=\"attachment_thumbnail\" />"
+        image_tag = "<image src=\"#{url}\" class=\"attachment_thumbnail\" /> #{text}"
       else
         h(text)
       end
