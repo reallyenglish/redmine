@@ -685,3 +685,6 @@ h2 img { vertical-align:middle; }
   #content { width: 99%; margin: 0; padding: 0; border: 0; background: #fff; overflow: visible !important;}
 	#wiki_add_attachment { display:none; }
 }
+
+/***** image expand *****/
+img.attachment_thumbnail {max-width:200px; max-height:200px;}

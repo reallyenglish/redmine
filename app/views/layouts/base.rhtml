@@ -17,6 +17,12 @@
 <%= call_hook :view_layouts_base_html_head %>
 <!-- page specific tags -->
 <%= yield :header_tags -%>
+
+<!-- reallyenglish added -->
+<%= javascript_include_tag 'lightbox' %>
+<%= javascript_include_tag 'scriptaculous.js?load=effects,builder' %>
+<%= stylesheet_link_tag 'lightbox', :media => 'screen' %>
+
 </head>
 <body>
 <div id="wrapper">

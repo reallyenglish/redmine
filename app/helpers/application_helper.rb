@@ -66,8 +66,19 @@ module ApplicationHelper
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
     action = options.delete(:download) ? 'download' : 'show'
+    
+    image = attachment.filename =~ /\.(png|gif|jpeg|jpg)$/ ? true : false
+    
+    text = 
+      if image
+        options[:rel] = "lightbox[attachment]"
+        url = url_for({:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename })
+        image_tag = "#{text} <image src=\"#{url}\" class=\"attachment_thumbnail\" />"
+      else
+        h(text)
+      end
 
-    link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
+    link_to(text, {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
   end
 
   def toggle_link(name, id, options={})
