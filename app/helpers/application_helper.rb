@@ -67,7 +67,7 @@ module ApplicationHelper
     text = options.delete(:text) || attachment.filename
     action = options.delete(:download) ? 'download' : 'show'
     
-    image = attachment.filename =~ /\.(png|gif|jpeg|jpg)$/ ? true : false
+    image = attachment.filename =~ /\.(png|gif|jpeg|jpg)$/i ? true : false
     
     image_tag =
       if image
