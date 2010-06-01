@@ -1,3 +1,0 @@
-= watchers_forum
-
-This plugin allow to add/remove watchers to all users in project.
