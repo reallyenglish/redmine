@@ -913,7 +913,6 @@ en:
 
   # added by RE
   label_open_unassigned_issues: unassigned
-  label_open_unassigned_issues_plural: unassigned
   label_new_issue_to_a_project: New issue ...
 
   re_extension_label_for_manager: Manager view issues
