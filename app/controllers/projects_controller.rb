@@ -58,6 +58,12 @@ class ProjectsController < ApplicationController
                                               :limit => Setting.feeds_limit.to_i)
         render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
       }
+      format.xml {
+        my_projects = Project.find :all,
+        :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.id IN (#{User.current.memberships.collect{|m| m.project_id}.join(',')}))",
+        :include => :parent
+        render :xml => my_projects.sort.to_xml
+      }
     end
   end
   

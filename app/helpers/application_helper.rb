@@ -92,8 +92,19 @@ module ApplicationHelper
   def link_to_attachment(attachment, options={})
     text = options.delete(:text) || attachment.filename
     action = options.delete(:download) ? 'download' : 'show'
+    
+    image = attachment.filename =~ /\.(png|gif|jpeg|jpg)$/i ? true : false
+    
+    image_tag =
+      if image
+        url = url_for({:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename })
+        inner = "<image src=\"#{url}\" class=\"attachment_thumbnail\" />"
+        link_to(inner, {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, :rel=>"lightbox[attachment]") + " "
+      else
+        ""
+      end
 
-    link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
+    image_tag + link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
   end
 
   # Generates a link to a SCM revision

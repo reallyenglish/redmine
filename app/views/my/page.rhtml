@@ -1,5 +1,5 @@
 <div class="contextual">
-    <%= link_to l(:label_personalize_page), :action => 'page_layout' %>
+    <%= link_to l(:label_personalize_page), :action => 'page_layout' %> | <%= link_to l(:re_extension_label_update_for_re), :action => 'update_with_recommendation' %>
 </div>
 
 <h2><%=l(:label_my_page)%></h2>
@@ -29,6 +29,17 @@
 		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
 	</div>
 	<% end if @blocks['right'] %>
+</div>
+
+<div style="clear: both"></div>
+
+<div id="list-bottom">
+	<% @blocks['bottom'].each do |b| 
+	   next unless MyController::BLOCKS.keys.include? b	%>
+	<div class="mypage-box">        
+		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+	</div>
+	<% end if @blocks['bottom'] %>
 </div>
 
 <% content_for :header_tags do %>

@@ -17,6 +17,12 @@
 <%= call_hook :view_layouts_base_html_head %>
 <!-- page specific tags -->
 <%= yield :header_tags -%>
+
+<!-- reallyenglish added -->
+<%= javascript_include_tag 'lightbox' %>
+<%= javascript_include_tag 'scriptaculous.js?load=effects,builder' %>
+<%= stylesheet_link_tag 'lightbox', :media => 'screen' %>
+
 </head>
 <body>
 <div id="wrapper">
@@ -36,6 +42,7 @@
         <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
         <% end %>
         <%= render_project_jump_box %>
+        <%= render :partial => 'layouts/new_bug_project_selector' if User.current.memberships.any? %>
     </div>
     
     <h1><%= page_header_title %></h1>

@@ -34,6 +34,8 @@ class MyController < ApplicationController
                       'right' => ['issuesreportedbyme'] 
                    }.freeze
 
+  RE_LAYOUT = {"top"=>["issuesformanagers"], 'left' => ['newissuestome', 'issuesoverduetome'], 'right' => ['resolvedissuesreportedbyme', 'newissuesreportedbyme'], 'bottom' => ['my_calendar', 'versions', 'involvedissues']}.freeze
+
   verify :xhr => true,
          :only => [:add_block, :remove_block, :order_blocks]
 
@@ -46,6 +48,14 @@ class MyController < ApplicationController
   def page
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
+  end
+
+  def update_with_recommendation
+    @user = User.current
+    @user.pref[:my_page_layout] = RE_LAYOUT
+    @user.pref.save
+    session[:page_layout] = nil
+    redirect_to :action => 'page'
   end
 
   # Edit user's account
@@ -160,8 +170,8 @@ class MyController < ApplicationController
   end
 
   # Change blocks order on user's page
-  # params[:group] : group to order (top, left or right)
-  # params[:list-(top|left|right)] : array of block ids of the group
+  # params[:group] : group to order (top, left or right or bottom)
+  # params[:list-(top|left|right|bottom)] : array of block ids of the group
   def order_blocks
     group = params[:group]
     @user = User.current

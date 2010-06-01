@@ -1,0 +1,6 @@
+<h3><%=l(:re_extension_label_for_issues_overdue)%></h3>
+<% assigned_issues = Issue.find(:all, 
+                                :conditions => ["assigned_to_id=? AND #{IssueStatus.table_name}.is_closed=? AND #{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND due_date<?", user.id, false, Date.today],
+                                :include => [ :status, :project, :tracker, :priority ], 
+                                :order => "#{Enumeration.table_name}.position DESC, #{Issue.table_name}.due_date") %>
+<%= render :partial => 'issues/list_simple_with_duedate', :locals => { :issues => assigned_issues } %>

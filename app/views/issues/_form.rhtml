@@ -31,3 +31,11 @@
 <%= call_hook(:view_issues_form_details_bottom, { :issue => @issue, :form => f }) %>
 
 <%= wikitoolbar_for 'issue_description' %>
+
+<% if !@issue.new_record? && @issue.status_id!=1 %>
+<script>
+  $('issue_assigned_to_id').observe('change', function() {
+    $('message_issue_assigned_to_id').show();
+  });
+</script>
+<% end %>

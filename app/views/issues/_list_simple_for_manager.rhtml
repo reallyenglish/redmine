@@ -1,0 +1,70 @@
+<% if issues && issues.any? %>
+<% form_tag({}) do %>
+	<table class="list issues">
+		<thead><tr>
+		<th>#</th>
+		<th>Tasks</th>
+		<th><%=l(:field_version)%></th>
+		<th><%=l(:field_due_date)%></th>
+		<th><%=l(:field_assigned_to)%></th>
+		<th><%=l(:field_tracker)%></th>
+		<th><%=l(:field_subject)%></th>
+		</tr></thead>
+		<tbody>
+		<% for issue in issues %>
+		<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= css_issue_classes(issue) %>">
+			<td class="id">
+				<%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
+				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
+			<td>
+				<% if issue.priority_id==7 %><span style="color:red">Emergency</span>
+				<% elsif !issue.assigned_to %>
+          Assign a member
+          <% if issue.fixed_version %>
+            (or set Due date to Version)
+          <% else %>
+            (or set Version)
+          <% end %>
+				<% elsif issue.due_date && issue.due_date < Date.today %>Overdue! Reschedule or complete now.
+				<% elsif !issue.due_date && !issue.fixed_version_id %>Set <span style="color:red">Due date</span> or <span style="color:red">Target version</span>
+				<% else %>Unknown
+				<% end %>
+			</td>
+			<td>
+        <% if issue.fixed_version %>
+					<%= link_to issue.fixed_version.name + '<br/>' + (issue.fixed_version.effective_date && issue.fixed_version.effective_date.to_s || '(Set date)'), :controller => 'versions', :action => 'edit', :id => issue.fixed_version %><br/>
+        <% else %>
+           -
+        <% end %>
+			</td>
+			<td>
+				<% if issue.due_date %>
+					<% if issue.due_date < Date.today %>
+						<span style="color:red"><%= issue.due_date %></span>
+					<% else %>
+						<%= issue.due_date %>
+					<% end %>
+				<% else %>
+					 -
+				<% end %>
+				</td>
+			<td>
+			<% if issue.assigned_to %>
+				<%= issue.assigned_to.name %>
+			<% else %>
+				<span style="color:red">Not assigned</span>
+			<% end %>
+			</td>
+			<td><%=h issue.project.name %> - <%= issue.tracker.name %><br />
+								<%= issue.status.name %> - <%= format_time(issue.updated_on) %></td>
+			<td class="subject">
+								<%= link_to h(issue.subject), :controller => 'issues', :action => 'show', :id => issue %>
+						</td>
+		</tr>
+		<% end %>
+		</tbody>
+	</table>
+<% end %>
+<% else %>
+	<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>

@@ -1,0 +1,6 @@
+<h3><%=l(:re_extension_label_for_involved_issues)%></h3>
+<% involved_issues = Issue.find(:all, 
+                                :conditions => ["(exists (select true from journals j where j.journalized_type='Issue' and j.journalized_id=#{Issue.table_name}.id and j.user_id=? and created_on >= ?)) OR (#{Issue.table_name}.author_id=? AND created_on>=?) ", user.id, Date.today - 5.day, user.id, Date.today - 5.day],
+                                :order => "#{Issue.table_name}.updated_on desc")
+%>
+<%= render :partial => 'issues/list_simple', :locals => { :issues => involved_issues } %>
