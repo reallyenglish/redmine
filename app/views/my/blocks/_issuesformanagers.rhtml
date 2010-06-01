@@ -1,6 +1,6 @@
 <%# TODO: shouldn't be hardcode for manager:3. Should add emergency one %>
 <%
-my_managing_projects = user.projects.select {|p| user.role_for_project(p).id == 3}.collect{|m| m.id}
+my_managing_projects = user.projects.select {|p| user.roles_for_project(p).map(&:id).include?(3)}.collect{|m| m.id}
 if my_managing_projects.length > 0
 %>
 <h3><%=l(:re_extension_label_for_manager)%></h3>

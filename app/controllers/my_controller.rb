@@ -27,7 +27,15 @@ class MyController < ApplicationController
              'news' => :label_news_latest,
              'calendar' => :label_calendar,
              'documents' => :label_document_plural,
-             'timelog' => :label_spent_time
+             'timelog' => :label_spent_time,
+             'my_calendar' => :re_extension_label_my_calendar,
+             'issuesformanagers' => :re_extension_label_for_manager,
+             'versions' => :re_extension_label_for_versions,
+             'issuesoverduetome' => :re_extension_label_for_issues_overdue,
+             'newissuestome' => :re_extension_label_my_new_issues,
+             'resolvedissuesreportedbyme' => :re_extension_label_resolved_reported_issues,
+             'involvedissues' => :re_extension_label_involved_issues,
+             'newissuesreportedbyme' => :re_extension_label_new_reported_issues
            }.merge(Redmine::Views::MyPage::Block.additional_blocks).freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'], 
@@ -148,7 +156,7 @@ class MyController < ApplicationController
     @user = User.current
     layout = @user.pref[:my_page_layout] || {}
     # remove if already present in a group
-    %w(top left right).each {|f| (layout[f] ||= []).delete block }
+    %w(top left right bottom).each {|f| (layout[f] ||= []).delete block }
     # add it on top
     layout['top'].unshift block
     @user.pref[:my_page_layout] = layout
@@ -163,7 +171,7 @@ class MyController < ApplicationController
     @user = User.current
     # remove block in all groups
     layout = @user.pref[:my_page_layout] || {}
-    %w(top left right).each {|f| (layout[f] ||= []).delete block }
+    %w(top left right bottom).each {|f| (layout[f] ||= []).delete block }
     @user.pref[:my_page_layout] = layout
     @user.pref.save 
     render :nothing => true
@@ -180,7 +188,7 @@ class MyController < ApplicationController
       if group_items and group_items.is_a? Array
         layout = @user.pref[:my_page_layout] || {}
         # remove group blocks if they are presents in other groups
-        %w(top left right).each {|f|
+        %w(top left right bottom).each {|f|
           layout[f] = (layout[f] || []) - group_items
         }
         layout[group] = group_items
