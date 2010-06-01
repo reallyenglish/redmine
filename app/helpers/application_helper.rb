@@ -226,6 +226,22 @@ module ApplicationHelper
       s
     end
   end
+
+  # Renders the project quick-jump box
+  def render_project_jump_new_issue_box
+    # Retrieve them now to avoid a COUNT query
+    projects = User.current.projects.all
+    if projects.any?
+      s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
+            "<option value=''>#{ l(:label_new_issue_to_a_project) }</option>" +
+            '<option value="" disabled="disabled">---</option>'
+      s << project_tree_options_for_select(projects) do |p|
+        { :value => url_for(:controller => 'issues', :action => 'new', :project_id=> p.id, :jump => current_menu_item) }
+      end
+      s << '</select>'
+      s
+    end
+  end
   
   def project_tree_options_for_select(projects, options = {})
     s = ''
