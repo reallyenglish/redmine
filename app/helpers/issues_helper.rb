@@ -83,7 +83,7 @@ module IssuesHelper
       when 'tracker_id'
         t = Tracker.find_by_id(detail.value) and value = t.name if detail.value
         t = Tracker.find_by_id(detail.old_value) and old_value = t.name if detail.old_value
-      when 'assigned_to_id'
+      when 'assigned_to_id','author_id'
         u = User.find_by_id(detail.value) and value = u.name if detail.value
         u = User.find_by_id(detail.old_value) and old_value = u.name if detail.old_value
       when 'priority_id'
