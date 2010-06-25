@@ -150,7 +150,7 @@ class IssuesController < ApplicationController
     
     if request.get? || request.xhr?
       @issue.start_date ||= Date.today
-      @issue.due_date ||= Date.today
+      # @issue.due_date ||= Date.today
     else
       requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
       # Check that the user is allowed to apply the requested status
