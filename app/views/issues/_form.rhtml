@@ -18,7 +18,7 @@
                    :accesskey => accesskey(:edit),
                    :class => 'wiki-edit' %></p>
 <% unless @issue.new_record? %>
-  <p><%= f.select :author_id, (User.find(:all).collect {|m| [m.name, m.id]}), :include_blank => true %></p>
+  <p><%= f.select :author_id, (User.find(:all,:order => "name").collect {|m| [m.name, m.id]}), :include_blank => true %></p>
 <% end %>
 </div>
 
