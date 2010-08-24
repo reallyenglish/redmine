@@ -45,7 +45,29 @@ module QueriesHelper
       if column.name == :done_ratio
         progress_bar(value, :width => '80px')
       else
-        value.to_s
+        case column.name
+        when :subject
+        h((!@project.nil? && @project != issue.project) ? "#{issue.project.name} - " : '') +
+          link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
+        when :project
+          link_to(h(value), :controller => 'projects', :action => 'show', :id => value)
+        when :assigned_to
+          link_to(h(value), :controller => 'account', :action => 'show', :id => value)
+        when :author
+          link_to(h(value), :controller => 'account', :action => 'show', :id => value)
+        when :done_ratio
+          progress_bar(value, :width => '80px')
+        when :fixed_version
+          link_to(h(value), { :controller => 'versions', :action => 'show', :id => issue.fixed_version_id })
+        when :estimated_hours
+          done_ratio = issue.send('done_ratio').to_f / 100.0
+          remain_time = value.to_f - (value.to_f * done_ratio)
+          # show with sum
+          @sum = @sum ? @sum + remain_time : remain_time
+          h(value) + " (" + h(@sum) + ")"
+        else
+          h(value)
+        end
       end
     when 'User'
       link_to_user value

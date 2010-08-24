@@ -4,10 +4,12 @@ function recreateSortables() {
     Sortable.destroy('list-top');
     Sortable.destroy('list-left');
     Sortable.destroy('list-right');
+    Sortable.destroy('list-button');
     
 	Sortable.create("list-top", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=top', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-top")})}, only:'mypage-box', tag:'div'})
 	Sortable.create("list-left", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=left', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-left")})}, only:'mypage-box', tag:'div'})
 	Sortable.create("list-right", {constraint:false, containment:['list-top','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=right', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-right")})}, only:'mypage-box', tag:'div'})
+	Sortable.create("list-bottom", {constraint:false, containment:['list-bottom','list-left','list-right'], dropOnEmpty:true, handle:'handle', onUpdate:function(){new Ajax.Request('/my/order_blocks?group=bottom', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize("list-bottom")})}, only:'mypage-box', tag:'div'})
 }
 
 function updateSelect() {
@@ -73,6 +75,15 @@ function removeBlock(block) {
 	<% end if @blocks['right'] %>
 </div>
 
+<div style="clear: both"></div>
+
+<div id="list-bottom" class="block-receiver">
+	<% @blocks['bottom'].each do |b| 
+	   next unless MyController::BLOCKS.keys.include? b %>
+	<%= render :partial => 'block', :locals => {:user => @user, :block_name => b} %>
+	<% end if @blocks['bottom'] %>
+</div>
+
 <%= sortable_element 'list-top',
       :tag => 'div',
       :only => 'mypage-box',
@@ -102,6 +113,16 @@ function removeBlock(block) {
       :containment => ['list-top', 'list-left', 'list-right'],
       :constraint => false,
       :url => { :action => "order_blocks", :group => "right" }
+       %>
+
+<%= sortable_element 'list-bottom',
+      :tag => 'div',
+      :only => 'mypage-box',
+      :handle => "handle",
+      :dropOnEmpty => true,
+      :containment => ['list-bottom', 'list-left', 'list-right'],
+      :constraint => false,
+      :url => { :action => "order_blocks", :group => "bottom" }
        %>
       
 <%= javascript_tag "updateSelect()" %>

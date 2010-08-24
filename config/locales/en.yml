@@ -911,3 +911,17 @@ en:
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
 
+  # added by RE
+  label_open_unassigned_issues: unassigned
+  label_open_unassigned_issues_plural: unassigned
+  label_new_issue_to_a_project: New issue ...
+
+  re_extension_label_for_manager: Manager view issues
+  re_extension_label_my_calendar: My Task Calendar (4 weeks)
+  re_extension_label_for_issues_overdue: My Overdue Issues
+  re_extension_label_my_new_issues: My New Issues
+  re_extension_label_update_for_re: Update this page with recommendation layout
+  re_extension_label_new_reported_issues: My Reported Issues (Not Accepted yet)
+  re_extension_label_resolved_reported_issues: My Reported Issues (Resolved)
+  re_extension_label_for_versions: Deadlines
+  re_extension_label_for_involved_issues: My activity in 3 days

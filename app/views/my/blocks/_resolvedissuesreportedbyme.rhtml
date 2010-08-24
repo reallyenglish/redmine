@@ -1,0 +1,13 @@
+<h3><%=l(:re_extension_label_resolved_reported_issues)%></h3>
+<% reported_issues = Issue.find(:all, 
+                                :conditions => ["author_id=? AND status_id=3 AND #{Project.table_name}.status=#{Project::STATUS_ACTIVE} ", user.id],
+                                :include => [ :status, :project, :tracker ], 
+                                :order => "#{Issue.table_name}.id DESC") %>
+<%= render :partial => 'issues/list_simple_with_assignee', :locals => { :issues => reported_issues } %>
+
+<% content_for :header_tags do %>
+<%= auto_discovery_link_tag(:atom, 
+                            {:controller => 'issues', :action => 'index', :set_filter => 1,
+                             :author_id => 'me', :format => 'atom', :key => User.current.rss_key},
+                            {:title => l(:label_reported_issues)}) %>
+<% end %>

@@ -40,6 +40,9 @@ module Redmine
         when :week
           @startdt = date - (date.cwday - first_wday)%7
           @enddt = date + (last_wday - date.cwday)%7
+        when :four_weeks
+          @startdt = date - (date.cwday - first_wday)%7
+          @enddt = @startdt + (4 * 7 - 1)
         else
           raise 'Invalid period'
         end
@@ -48,7 +51,7 @@ module Redmine
       # Sets calendar events
       def events=(events)
         @events = events
-        @ending_events_by_days = @events.group_by {|event| event.due_date}
+        @ending_events_by_days = @events.group_by {|event| event.due_date || (event.fixed_version.effective_date if event.fixed_version)}
         @starting_events_by_days = @events.group_by {|event| event.start_date}
       end
       

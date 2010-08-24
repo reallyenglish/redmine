@@ -1,7 +1,7 @@
-<h3><%=l(:label_reported_issues)%> (<%= Issue.visible.count(:conditions => { :author_id => User.current.id }) %>)</h3>
-
-<% reported_issues = Issue.visible.find(:all, 
-                                :conditions => { :author_id => User.current.id },
+<% conditions = ["author_id=? AND #{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND status_id in (1,3) ", user.id] %>
+<h3><%=l(:label_reported_issues)%> (<%= Issue.visible.count(:conditions=>conditions)%>)</h3>
+<% reported_issues = Issue.find(:all, 
+                                :conditions => conditions,
                                 :limit => 10, 
                                 :include => [ :status, :project, :tracker ], 
                                 :order => "#{Issue.table_name}.updated_on DESC") %>

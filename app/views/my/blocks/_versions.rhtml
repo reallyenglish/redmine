@@ -1,0 +1,34 @@
+<%
+  day_from = Date.today - 3.days
+  day_to = Date.today + 1.months
+  versions = Version.find(:all,
+                                :conditions => [
+                                            "(effective_date between ?::date and ?::date)",
+                                            day_from, day_to
+                                            ],
+                                :include => [ :project ], 
+                                :order => "#{Project.table_name}.id desc, #{Version.table_name}.effective_date "
+                         )
+  if versions.length > 0 then %>
+   <h3><%=l(:re_extension_label_for_versions)%> ( <%= day_from %> - <%= day_to %> )</h3>
+   <% cnt = 0 %>
+  <% end %>
+  <table>
+  <% versions.each do |version| %>
+    <% if cnt == 0 then %>
+      <tr valign="top">
+    <% elsif cnt == 2 then
+      cnt = 0 %>
+      </tr>
+      <tr valign="top">
+    <% end %>
+    <td>
+      <%= tag 'a', :name => version.name %>
+      <h3 class="icon22 icon22-package"><%= link_to h(version.project.name + ' - ' + version.name), :controller => 'versions', :action => 'show', :id => version %></h3>
+      <%= render :partial => 'versions/overview', :locals => {:version => version} %>
+      <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
+    </td>
+    <% cnt = cnt + 1 %>
+  <% end %>
+  </tr>
+  </table>
