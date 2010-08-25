@@ -317,6 +317,8 @@ private
     if params[:issue].is_a?(Hash)
       @issue.safe_attributes = params[:issue]
       @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
+    else
+      @issue.watcher_user_ids = DefaultWatcher.find_all_by_user_id(User.current.id).map{|u| u.watcher.id}
     end
     @issue.author = User.current
     @issue.start_date ||= Date.today
