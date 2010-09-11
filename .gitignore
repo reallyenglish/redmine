@@ -20,3 +20,4 @@
 *.rbc
 .DS_Store
 *~
+.bundle
