@@ -1,0 +1,11 @@
+# start redmine
+
+bundle exec unicorn_rails -c config/unicorn.conf -E production -D
+
+# restart redmine
+
+kill -USR2 `cat /usr/local/redmine/tmp/pids/unicorn.pid`
+
+# stop redmine
+
+kill -QUIT `cat /usr/local/redmine/tmp/pids/unicorn.pid`
