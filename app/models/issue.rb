@@ -213,6 +213,7 @@ class Issue < ActiveRecord::Base
     estimated_hours
     custom_field_values
     lock_version
+    author_id
   ) unless const_defined?(:SAFE_ATTRIBUTES)
   
   # Safely sets attributes
