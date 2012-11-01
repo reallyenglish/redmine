@@ -1,6 +1,7 @@
 /config/additional_environment.rb
 /config/database.yml
 /config/email.yml
+/config/unicorn.conf
 /config/initializers/session_store.rb
 /coverage
 /db/*.db
