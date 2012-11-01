@@ -18,6 +18,8 @@
 require 'iconv'
 
 class Changeset < ActiveRecord::Base
+  MAX_ISSUE_ID = 2**30
+
   belongs_to :repository
   belongs_to :user
   has_many :changes, :dependent => :delete_all
@@ -166,8 +168,9 @@ class Changeset < ActiveRecord::Base
   # Finds issues that can be referenced by the commit message
   # i.e. issues that belong to the repository project, a subproject or a parent project
   def find_referenced_issues_by_id(ids)
-    return [] if ids.compact.empty?
-    Issue.find_all_by_id(ids, :include => :project).select {|issue|
+    valid_ids = ids.select {|i| !i.blank? && i.to_i < MAX_ISSUE_ID}
+    return [] if valid_ids.empty?
+    Issue.find_all_by_id(valid_ids, :include => :project).select {|issue|
       project == issue.project || project.is_ancestor_of?(issue.project) || project.is_descendant_of?(issue.project)
     }
   end
